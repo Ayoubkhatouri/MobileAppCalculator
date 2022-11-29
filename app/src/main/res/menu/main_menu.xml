@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group android:checkableBehavior="single">
+    <item android:id="@+id/historique" android:title="Historique" android:icon="@drawable/ic_baseline_history_24"></item>
+    <item android:id="@+id/sittings" android:title="Settings" android:icon="@drawable/ic_baseline_settings_24"></item>
+    <item android:id="@+id/time" android:title="Time" android:icon="@drawable/ic_baseline_access_time_24"></item>
+</group>
+</menu>
