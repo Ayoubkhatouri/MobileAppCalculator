@@ -7,6 +7,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+import org.mariuszgromada.math.mxparser.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     MaterialButton button0,button1,button2,button3,button4,button5,button6,button7,button8,button9;
     MaterialButton buttonComma,buttonEqual;
     MaterialButton buttonModulo,buttonMultp,buttonPlus,buttonMinus,buttonDivide;
+    MaterialButton buttonSin,buttonCos,buttonTan,buttonArcSin,buttonArcCos,buttonArcTan,buttonLog,buttonLn,buttonRacine,buttonExp,
+            buttonPi,buttonAbs,buttonPrime,buttonSquare, buttonSquareNbr;
 
     // for the navigation View
     DrawerLayout drawerLayout;
@@ -50,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {//Bundle est le dernier etat sauvgarder de l'app
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         solutionTv=findViewById(R.id.solution_tv);
         resultV=findViewById(R.id.resultTV);
         assignId(button0,R.id.button0);
@@ -73,11 +79,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         assignId(buttonMinus,R.id.buttonMinus);
         assignId(buttonDivide,R.id.buttonDivide);
         assignId(buttonDivide,R.id.buttonDivide);
+        assignId(buttonSin,R.id.buttonSin);
+        assignId(buttonCos,R.id.buttonCos);
+        assignId(buttonTan,R.id.buttonTan);
+        assignId(buttonArcSin,R.id.buttonArcsin);
+        assignId(buttonArcCos,R.id.buttonArccos);
+        assignId(buttonArcTan,R.id.buttonArcTan);
+        assignId(buttonLog,R.id.buttonLog);
+        assignId(buttonLn,R.id.buttonLn);
+        assignId(buttonRacine,R.id.buttonRacine);
+        assignId(buttonSquare,R.id.buttonsquare);
+        assignId(buttonExp,R.id.buttonexp);
+        assignId(buttonPi,R.id.buttonPi);
+        assignId(buttonAbs,R.id.buttonabs);
+        assignId(buttonPrime,R.id.buttonPrime);
+        assignId(buttonSquare,R.id.buttonsquare);
+        assignId(buttonSquareNbr,R.id.buttonSquareTwo);
+
 
         //for the Menu
         drawerLayout =findViewById(R.id.drawer_Layout);
         navigationView=findViewById(R.id.navigationView);
         actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.menu_Open,R.string.close_menu);
+       // if(drawerLayout!=null)
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -93,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.time:
                         Log.i("MENU_DRAWER_TAG","time is clicked");
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
 
                     case R.id.sittings:
                         Log.i("MENU_DRAWER_TAG","sittings is clicked");
@@ -107,8 +130,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    void assignId(MaterialButton btn ,int id){
+    @SuppressLint("SuspiciousIndentation")
+    void assignId(MaterialButton btn , int id){
         btn=findViewById(id);
+        if(btn!=null)
         btn.setOnClickListener(this);
     }
 
@@ -118,25 +143,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     MaterialButton  button=(MaterialButton) view; //we get the button that is clicked
     String buttonText=button.getText().toString();
     String dataToCalculate=solutionTv.getText().toString();
-
-    if(buttonText.equals("C") ){
-        if( dataToCalculate.length()==1){
+    if(buttonText.equals("C") ) {
+        if (dataToCalculate.length() == 1) {
             solutionTv.setText("0");
-        dataToCalculate="0";
-        }
-       else
-        dataToCalculate=dataToCalculate.substring(0,dataToCalculate.length()-1);
-
+            dataToCalculate = "0";
+        } else
+            dataToCalculate = dataToCalculate.substring(0, dataToCalculate.length() - 1);
     }
+
 
     else if(buttonText.equals("=")){
         solutionTv.setText(resultV.getText());
         return;
     }
+
     else{
         if(dataToCalculate.equals("0") && !buttonText.equals(","))
             dataToCalculate="";
-
         dataToCalculate+=buttonText;
     }
 
@@ -153,11 +176,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String getResult(String data){
 
         try {
-            Context context=Context.enter();
-            context.setOptimizationLevel(-1);
-            Scriptable scriptable=context.initSafeStandardObjects();
-            String finalResult=context.evaluateString(scriptable,data,"javascript",1,null).toString();
-            return  finalResult;
+            data=data.replace("%","#");
+            data=data.replace("log","lg");
+            data=data.replace("π","pi");
+
+
+
+        Expression exp=new Expression(data);
+        String result=String.valueOf(exp.calculate());
+        return  result;
         }catch (Exception e){
             return "Err";
         }

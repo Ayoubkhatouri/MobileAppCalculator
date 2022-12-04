@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="buttonSin" type="id" />
+    <item name="buttonCos" type="id" />
+    <item name="buttonTan" type="id" />
+    <item name="buttonArcsin" type="id" />
+    <item name="buttonArccos" type="id" />
+    <item name="buttonArcTan" type="id" />
+    <item name="buttonLog" type="id" />
+    <item name="buttonLn" type="id" />
+    <item name="buttonRacine" type="id" />
+    <item name="buttonexp" type="id" />
+    <item name="buttonPi" type="id" />
+    <item name="buttonabs" type="id" />
+    <item name="buttonPrime" type="id" />
+    <item name="buttonsquare" type="id" />
+    <item name="buttonSquareTwo" type="id" />
+</resources>
